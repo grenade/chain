@@ -12,6 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: always
   RUSTUP_TOOLCHAIN: nightly-2024-12-14
 
 jobs:
@@ -37,6 +39,11 @@ jobs:
       -
         name: toolchain-pin
         run: rustup override set ${RUSTUP_TOOLCHAIN}
+      -
+        name: cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
       -
         name: compile
         run: cargo build --locked --workspace

@@ -1,0 +1,25 @@
+---
+name: ubuntu dependencies
+description: installs dependencies required to compile the node and runtime on ubuntu
+
+env:
+  RUSTUP_ARCH: x86_64-unknown-linux-gnu
+
+runs:
+  using: composite
+  steps:
+    -
+      name: rust compilation prerequisites (ubuntu)
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        sudo apt-get update -yqq
+        sudo apt-get install -yqq --no-install-recommends \
+          libclang-dev \
+          protobuf-compiler
+        rustup update
+        rustup toolchain install ${RUSTUP_TOOLCHAIN}
+        rustup target add wasm32-unknown-unknown \
+          --toolchain ${RUSTUP_TOOLCHAIN}-${RUSTUP_ARCH}
+        rustup component add rustfmt clippy rust-src \
+          --toolchain ${RUSTUP_TOOLCHAIN}-${RUSTUP_ARCH}
+      shell: bash

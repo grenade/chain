@@ -2,9 +2,6 @@
 name: ubuntu dependencies
 description: installs dependencies required to compile the node and runtime on ubuntu
 
-env:
-  RUSTUP_ARCH: x86_64-unknown-linux-gnu
-
 runs:
   using: composite
   steps:
@@ -19,7 +16,7 @@ runs:
         rustup update
         rustup toolchain install ${RUSTUP_TOOLCHAIN}
         rustup target add wasm32-unknown-unknown \
-          --toolchain ${RUSTUP_TOOLCHAIN}-${RUSTUP_ARCH}
+          --toolchain ${RUSTUP_TOOLCHAIN}-x86_64-unknown-linux-gnu
         rustup component add rustfmt clippy rust-src \
-          --toolchain ${RUSTUP_TOOLCHAIN}-${RUSTUP_ARCH}
+          --toolchain ${RUSTUP_TOOLCHAIN}-x86_64-unknown-linux-gnu
       shell: bash

@@ -2,9 +2,6 @@
 name: macos dependencies
 description: installs dependencies required to compile the node and runtime on macos
 
-env:
-  RUSTUP_ARCH: aarch64-apple-darwin
-
 runs:
   using: composite
   steps:
@@ -17,7 +14,7 @@ runs:
         rustup update
         rustup toolchain install ${RUSTUP_TOOLCHAIN}
         rustup target add wasm32-unknown-unknown \
-          --toolchain ${RUSTUP_TOOLCHAIN}-${RUSTUP_ARCH}
+          --toolchain ${RUSTUP_TOOLCHAIN}-aarch64-apple-darwin
         rustup component add rustfmt clippy rust-src \
-          --toolchain ${RUSTUP_TOOLCHAIN}-${RUSTUP_ARCH}
+          --toolchain ${RUSTUP_TOOLCHAIN}-aarch64-apple-darwin
       shell: sh

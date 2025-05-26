@@ -49,24 +49,24 @@ jobs:
         name: compile
         run: cargo build --locked --release --workspace
         timeout-minutes: 90
-      -
-        if: contains(matrix.os, 'macos')
-        name: publish
-        run: |
-          mkdir -p ~/.ssh
-          echo ${QUANTUS_CDN_KEY} > ~/.ssh/id_quantus
-          chmod 600 ~/.ssh/id_quantus
-          mkdir -p ./${GITHUB_SHA:0:11}/osx
-          cp target/release/quantus-node ./${GITHUB_SHA:0:11}/osx/quantus-node
-          cp target/release/external-miner ./${GITHUB_SHA:0:11}/osx/quantus-miner
-          rsync \
-            --archive \
-            --compress \
-            --rsh 'ssh -i ~/.ssh/id_quantus -o ConnectTimeout=3 -p 52201' \
-            --verbose \
-            ./${GITHUB_SHA:0:11} \
-            resonance@cdn.res.fm:/usr/share/nginx/cdn.res.fm/release/
-        timeout-minutes: 1
+      #-
+      #  if: contains(matrix.os, 'macos')
+      #  name: publish
+      #  run: |
+      #    mkdir -p ~/.ssh
+      #    echo ${QUANTUS_CDN_KEY} > ~/.ssh/id_quantus
+      #    chmod 600 ~/.ssh/id_quantus
+      #    mkdir -p ./${GITHUB_SHA:0:11}/osx
+      #    cp target/release/quantus-node ./${GITHUB_SHA:0:11}/osx/quantus-node
+      #    cp target/release/external-miner ./${GITHUB_SHA:0:11}/osx/quantus-miner
+      #    rsync \
+      #      --archive \
+      #      --compress \
+      #      --rsh 'ssh -i ~/.ssh/id_quantus -o ConnectTimeout=3 -p 52201' \
+      #      --verbose \
+      #      ./${GITHUB_SHA:0:11} \
+      #      resonance@cdn.res.fm:/usr/share/nginx/cdn.res.fm/release/
+      #  timeout-minutes: 1
       -
         if: contains(matrix.os, 'ubuntu')
         name: publish
